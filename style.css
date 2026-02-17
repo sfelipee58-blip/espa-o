@@ -1,0 +1,126 @@
+/* style.css */
+:root{
+  --txt: rgba(255,255,255,.92);
+  --muted: rgba(255,255,255,.72);
+  --soft: rgba(255,255,255,.14);
+  --btn: #d6b0a5; /* tom rosé/bege parecido com a print */
+  --btnText: rgba(10,10,12,.92);
+}
+
+*{ box-sizing:border-box; }
+html,body{
+  height:100%;
+  margin:0;
+  background:#000;
+  overflow:hidden;
+  font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  color:var(--txt);
+}
+#c{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  display:block;
+}
+
+/* cinema */
+.vignette{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background: radial-gradient(1200px 800px at 50% 45%,
+    rgba(0,0,0,0) 55%,
+    rgba(0,0,0,.55) 85%,
+    rgba(0,0,0,.92) 100%);
+  mix-blend-mode:multiply;
+}
+.grain{
+  position:fixed;
+  inset:-20%;
+  pointer-events:none;
+  opacity:.12;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)' opacity='.85'/%3E%3C/svg%3E");
+  background-size:260px 260px;
+  animation: grainMove 6s steps(6) infinite;
+}
+@keyframes grainMove{
+  0%{ transform:translate3d(-2%, -2%, 0) rotate(1deg); }
+  100%{ transform:translate3d(2%, 2%, 0) rotate(1deg); }
+}
+
+/* PAINEL INICIAL */
+.start{
+  position:fixed;
+  inset:0;
+  display:grid;
+  place-items:center;
+  padding:22px;
+  background: radial-gradient(900px 600px at 50% 40%,
+    rgba(0,0,0,.35),
+    rgba(0,0,0,.82) 70%,
+    rgba(0,0,0,.92) 100%);
+  transition: opacity .55s ease, transform .55s ease;
+}
+.start.hide{
+  opacity:0;
+  transform: translateY(10px);
+  pointer-events:none;
+}
+
+.start-inner{
+  width:min(820px, 100%);
+  text-align:center;
+}
+
+.start h1{
+  margin:0 0 16px 0;
+  font-size: clamp(40px, 5.4vw, 64px);
+  letter-spacing:.2px;
+  font-weight:800;
+  color: rgba(214,176,165,.95); /* rosé da print */
+  text-shadow: 0 10px 40px rgba(0,0,0,.55);
+}
+
+.lead{
+  margin: 0;
+  font-size: 14px;
+  color: rgba(255,255,255,.80);
+}
+.sub{
+  margin: 10px 0 0 0;
+  font-size: 14px;
+  color: rgba(255,255,255,.86);
+}
+
+.credit{
+  margin: 18px 0 18px 0;
+  font-size: 12px;
+  color: rgba(255,255,255,.62);
+}
+
+.start-btn{
+  appearance:none;
+  border:none;
+  cursor:pointer;
+  padding: 12px 44px;
+  border-radius: 999px;
+  background: var(--btn);
+  color: var(--btnText);
+  font-weight: 700;
+  box-shadow: 0 16px 50px rgba(0,0,0,.48);
+  transition: transform .12s ease, filter .12s ease;
+}
+.start-btn:hover{ transform: translateY(-1px); filter: brightness(1.05); }
+.start-btn:active{ transform: translateY(0px) scale(.99); }
+
+.tiny{
+  margin: 16px auto 0 auto;
+  max-width: 560px;
+  font-size: 11px;
+  color: rgba(255,255,255,.45);
+  line-height: 1.4;
+}
+
+/* modo cinema (duplo clique) — remove overlays do painel inicial se ainda estiver */
+body.cinematic .vignette{ opacity:.85; }
